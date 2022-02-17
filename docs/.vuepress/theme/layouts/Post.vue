@@ -31,6 +31,7 @@
 <script>
 import LocationBar from '../components/LocationBar'
 import { ClockIcon, TagIcon } from 'vue-feather-icons'
+import mediumZoom from 'medium-zoom'
 import dayjs from 'dayjs'
 import dayjsPluginUTC from 'dayjs/plugin/utc'
 import 'dayjs/locale/zh-cn'
@@ -42,6 +43,9 @@ export default {
     LocationBar,
     ClockIcon,
     TagIcon,
+  },
+  mounted() {
+    mediumZoom('.content__default img')
   },
   methods: {
     resolvePostDate(date) {

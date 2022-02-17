@@ -12,8 +12,8 @@
   "license": "ISC",
   "devDependencies": {
     "@vuepress/plugin-blog": "^1.9.4",
-    "@vuepress/plugin-medium-zoom": "^1.9.7",
     "dayjs": "^1.10.7",
+    "medium-zoom": "^1.0.6",
     "vue-feather-icons": "^5.1.0",
     "vuepress": "^1.9.7",
     "vuepress-plugin-smooth-scroll": "^0.0.10"
