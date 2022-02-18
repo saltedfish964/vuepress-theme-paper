@@ -2,6 +2,8 @@
 
 `vuepress` 的博客主题。
 
+![](./demo.png)
+
 ## 使用
 
 ``` base
