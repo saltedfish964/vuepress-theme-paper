@@ -1,13 +1,14 @@
 /*
  * @Author: zengminghong
  * @Date: 2022-02-17 04:53:39
- * @LastEditTime: 2022-02-17 16:56:31
+ * @LastEditTime: 2022-02-17 21:44:30
  * @LastEditors: zengminghong
  * @Description: 
  */
 const path = require('path')
 
 module.exports = themeConfig => {
+  
   /**
    * Configure blog plugin
    */
@@ -17,6 +18,12 @@ module.exports = themeConfig => {
         id: 'post',
         dirname: '_posts',
         path: '/',
+        title: '随笔',
+        pagination: {
+          getPaginationPageTitle (pageNumber) {
+            return `第 ${pageNumber} 页 | 随笔`
+          }
+        },
       },
     ],
     frontmatters: [
@@ -24,6 +31,12 @@ module.exports = themeConfig => {
         id: 'tag',
         keys: ['tags'],
         path: '/tag/',
+        title: '分类',
+        pagination: {
+          getPaginationPageTitle (pageNumber, key) {
+            return `第 ${pageNumber} 页 - ${key} | 分类`
+          }
+        },
       },
     ],
     globalPagination: {
@@ -45,8 +58,8 @@ module.exports = themeConfig => {
   const enableSmoothScroll = themeConfig.smoothScroll === true
 
   const plugins = [
+    '@vuepress/register-components',
     '@vuepress/plugin-nprogress',
-    ['@vuepress/medium-zoom', true],
     ['@vuepress/blog', blogPluginOptions],
     ['smooth-scroll', enableSmoothScroll],
     ['container', {

@@ -1,34 +1,45 @@
 <template>
   <div class="post">
     <LocationBar :name="$frontmatter.title" />
-    <header>
-      <h2 class="posts-item_title">
-        <a class="posts-item_title_link">{{ $frontmatter.title }}</a>
-      </h2>
-    </header>
-    <footer class="footer">
-      <div class="time-container" v-if="$frontmatter.date">
-        <ClockIcon size="1x" />
-        <time :datetime="$frontmatter.date">
-          {{ resolvePostDate($frontmatter.date) }}
-        </time>
+    <div 
+      class="content-container" 
+      :style="{ display: visible ? 'grid' : 'block' }"
+    >
+      <div>
+        <header>
+          <h2 class="posts-item_title">
+            <a class="posts-item_title_link">{{ $frontmatter.title }}</a>
+          </h2>
+        </header>
+        <footer class="footer">
+          <div class="time-container" v-if="$frontmatter.date">
+            <ClockIcon size="1x" />
+            <time :datetime="$frontmatter.date">
+              {{ resolvePostDate($frontmatter.date) }}
+            </time>
+          </div>
+          <div class="tag" v-if="$frontmatter.tags">
+            <div 
+              class="tag-container"
+              v-for="tag in resolvePostTags($frontmatter.tags)"
+              :key="tag"
+            >
+              <TagIcon size="1x" />
+              <router-link :to="'/tag/' + tag">#{{ tag }}</router-link>
+            </div>
+          </div>
+        </footer>
+        <Content />
       </div>
-      <div class="tag" v-if="$frontmatter.tags">
-        <div 
-          class="tag-container"
-          v-for="tag in resolvePostTags($frontmatter.tags)"
-          :key="tag"
-        >
-          <TagIcon size="1x" />
-          <router-link :to="'/tag/' + tag">#{{ tag }}</router-link>
-        </div>
+      <div class="slider">
+        <Toc />
       </div>
-    </footer>
-    <Content />
+    </div>
   </div>
 </template>
 
 <script>
+import Toc from '@theme/components/Toc.vue'
 import LocationBar from '../components/LocationBar'
 import { ClockIcon, TagIcon } from 'vue-feather-icons'
 import mediumZoom from 'medium-zoom'
@@ -40,9 +51,19 @@ dayjs.locale('zh-cn')
 
 export default {
   components: {
+    Toc,
     LocationBar,
     ClockIcon,
     TagIcon,
+  },
+  computed: {
+    visible() {
+      return (
+        this.$frontmatter &&
+        this.$frontmatter.toc !== false &&
+        !!(this.$page && this.$page.headers && this.$page.headers.length)
+      )
+    },
   },
   mounted() {
     mediumZoom('.content__default img')
@@ -110,4 +131,13 @@ export default {
     color: #333
     padding-right: 0.5em
     line-height: 1.375rem
+.content-container
+  display grid
+  grid-template-columns auto 18.75rem
+  .slider
+    padding 1.25rem
+
+@media (max-width: 760px)
+  .content-container
+    display block
 </style>
