@@ -3,7 +3,9 @@
     <LocationBar :name="$frontmatter.title" />
     <div 
       class="content-container" 
-      :style="{ display: visible ? 'grid' : 'block' }"
+      :class="{
+        'no-toc': visible === false,
+      }"
     >
       <div>
         <header>
@@ -31,7 +33,7 @@
         </footer>
         <Content />
       </div>
-      <div class="slider">
+      <div class="slider" v-if="visible">
         <Toc />
       </div>
     </div>
@@ -136,6 +138,8 @@ export default {
   grid-template-columns auto 18.75rem
   .slider
     padding 1.25rem
+.no-toc
+  display block
 
 @media (max-width: 760px)
   .content-container
